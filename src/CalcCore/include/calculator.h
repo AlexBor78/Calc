@@ -12,14 +12,21 @@
 
 namespace Calc
 {
+    using MainValType = long double;
+    enum TokenValue : char;
+    
+    class Calc;
+
     namespace Math
     {
         double factorial(double);
     } // namespace Math
 
-    enum TokenValue : char;
     class CalcException;
     class StrToSolve;
+
+    class MathObject;
+    class ObjectTable;
 
     class Constant;
     class ConstTable;
@@ -29,8 +36,5 @@ namespace Calc
 
     class Function;  // not realesed
     class FuncTable; // not realesed
-
-
-    class Calc;
 
 } // namespace Calc

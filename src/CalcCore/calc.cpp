@@ -6,7 +6,7 @@ namespace Calc
     Calc::~Calc() = default;
     
     // public functions
-    std::vector<double> Calc::calculate(const char *s)
+    std::vector<MainValType> Calc::calculate(const char *s)
     {
         str.setStr(s);
         solutions.clear();
@@ -21,7 +21,7 @@ namespace Calc
             {
                 continue;
             }
-            double buf = expr();
+            MainValType buf = expr();
             if(!isError && !newName)
             {
                 solutions.push_back(buf);
@@ -32,7 +32,7 @@ namespace Calc
         return solutions;
     }
 
-    void Calc::inserVar(const char *n, double v)
+    void Calc::inserVar(const char *n, MainValType v)
     {
         if(varTable.contain(n))
         {
@@ -42,7 +42,7 @@ namespace Calc
         varTable.insert(n, v);
     }
 
-    void Calc::inserConst(const char *n, double v)
+    void Calc::inserConst(const char *n, MainValType v)
     {
         if(constTable.contain(n))
         {
@@ -110,7 +110,8 @@ namespace Calc
                 str.cursorpl();
                 ch = str.getCh();
 
-                var_val = std::stoi(buf);
+                var_val = std::stold(buf);
+                
                 buf.clear();
 
                 while (isdigit(ch))
@@ -119,11 +120,11 @@ namespace Calc
                     str.cursorpl();
                     ch = str.getCh();
                 }
-                var_val = var_val + std::stoi(buf) / pow(10, buf.size());
+                var_val = var_val + std::stold(buf) / pow(10, buf.size());
                 return currTok = NUMBER;
             }
             // std::cout << "num:" << buf << std::endl;
-            var_val = std::stoi(buf);
+            var_val = std::stold(buf);
             return currTok = NUMBER;
             break;
 
@@ -152,10 +153,10 @@ namespace Calc
         }
     }
 
-    double Calc::newLvl()
+    MainValType Calc::newLvl()
     {
         // std::cout << "newLvl()" << std::endl;
-        double left = prim();
+        MainValType left = prim();
         while (1)
         {
             switch (currTok)
@@ -178,10 +179,10 @@ namespace Calc
         
     }
 
-    double Calc::term()
+    MainValType Calc::term()
     {
         // std::cout << "term()" << std::endl;
-        double left = newLvl();
+        MainValType left = newLvl();
         while(1)
         {
             switch (currTok)
@@ -194,7 +195,7 @@ namespace Calc
             case (DIV):
             {
                 getToken();
-                double d = newLvl();
+                MainValType d = newLvl();
                 if(d==0)
                 {
                     error("devid by 0");
@@ -209,10 +210,10 @@ namespace Calc
         }
     }
 
-    double Calc::expr()
+    MainValType Calc::expr()
     {
         // std::cout << "expr()" << std::endl;
-        double left = term();
+        MainValType left = term();
         while (1)
         {
             switch (currTok)
@@ -235,7 +236,7 @@ namespace Calc
         
     }
 
-    double Calc::prim()
+    MainValType Calc::prim()
     {
         // std::cout << "prim()" << std::endl;
         switch (currTok)
@@ -253,7 +254,7 @@ namespace Calc
         case (LP):
         {
             getToken(); 
-            double e = expr();
+            MainValType e = expr();
             if(currTok != RP)
             {
                 error("expected ')'");
@@ -266,7 +267,7 @@ namespace Calc
         case (MODULE):
         {
             getToken(); 
-            double e = expr();
+            MainValType e = expr();
             if(currTok != MODULE)
             {
                 error("expected '|'");
@@ -277,7 +278,6 @@ namespace Calc
         } break;
 
         case (NAME):
-            std::cout << "name" << std::endl;
             if(constTable.contain(var_name))
             {
                 if(getToken() == ASSIGN)

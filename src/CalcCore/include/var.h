@@ -4,15 +4,14 @@
 
 namespace Calc
 {
-    class Varible //: public Constant
+    class Varible : public Constant
     {
-    private:
-        double val{0};
-        bool isInit{0};
     public:
-        double getVal();
-        void setVal(double);
-        Varible(double);
+        void setVal(MainValType);
+    public:
+        Varible(MainValType);
+        Varible();
+        ~Varible();
     };
     
 } // namespace Calc

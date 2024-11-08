@@ -2,23 +2,16 @@
 
 namespace Calc
 {
-    Varible::Varible(double v)
+    Varible::~Varible() = default;
+    Varible::Varible() = default;
+    Varible::Varible(MainValType v)
     :
-    val(v),
-    isInit(1){}
+    Constant(v){}
 
-    void Varible::setVal(double v)
+    void Varible::setVal(MainValType v)
     {
         val = v;
         isInit = 1;
     }
 
-    double Varible::getVal()
-    {
-        if(isInit)
-        {
-            return val;
-        }
-        throw(CalcException("var is not inited"));
-    }
 } // namespace Calc

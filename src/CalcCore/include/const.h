@@ -1,21 +1,21 @@
 #pragma once
 #include <calculator.h>
-#include <exception.h>
+#include <mathobject.h>
 
 namespace Calc
 {
-    class Constant
+    class Constant : public MathObject
     {
+    friend Varible;
     private:
-        double val{0};
-        bool isInit{0};
+        MainValType val{0};
     public:
-        double getVal();
-        bool isInited();
+        virtual MainValType getVal();
     public:
-        Constant(double);
-        // Constant();
+        Constant(MainValType);
         ~Constant();
+    protected:
+        Constant();
     };
         
 } // namespace Calc

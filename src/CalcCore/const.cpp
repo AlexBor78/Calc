@@ -3,24 +3,22 @@
 namespace Calc
 {
     Constant::~Constant() = default;
-    // Constant::Constant() = default;
-    Constant::Constant(double v)
+    Constant::Constant() = default;
+    Constant::Constant(MainValType v)
     :
     val(v),
-    isInit(1){}
+    MathObject()
+    {
+        isInit = 1;
+    }
 
-    double Constant::getVal()
+    MainValType Constant::getVal()
     {
         if(isInit)
         {
             return val;
         }
-        throw(CalcException("Const is not inited"));
-    }
-
-    bool Constant::isInited()
-    {
-        return isInit;
+        throw(CalcException("Const or Var is not inited"));
     }
 
 } // namespace Calc

@@ -13,9 +13,9 @@ namespace Calc
         StrToSolve str;
         VarTable varTable;
         ConstTable constTable;
-        std::vector<double> solutions{};
+        std::vector<MainValType> solutions{};
         TokenValue currTok{NOTINITED};
-        double var_val{0};
+        MainValType var_val{0};
         char *var_name{nullptr};
         bool isError{0};
         bool newName{0};
@@ -26,20 +26,20 @@ namespace Calc
         void error(std::string);
 
         // lvl of exponen and factorial
-        double newLvl();
+        MainValType newLvl();
 
         // lvl of multyply and diving
-        double term();
+        MainValType term();
 
         // lvl of addition and subtraction
-        double expr();
+        MainValType expr();
 
         // return value
-        double prim();
+        MainValType prim();
     public:
-        std::vector<double> calculate(const char*);
-        void inserVar(const char*, double);
-        void inserConst(const char*, double);
+        std::vector<MainValType> calculate(const char*);
+        void inserVar(const char*, MainValType);
+        void inserConst(const char*, MainValType);
     public:
         Calc();
         ~Calc();
