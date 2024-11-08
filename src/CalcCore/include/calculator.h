@@ -14,12 +14,12 @@ namespace Calc
 {
     using MainValType = long double;
     enum TokenValue : char;
-    
+
     class Calc;
 
     namespace Math
     {
-        double factorial(double);
+        double factorial(MainValType);
     } // namespace Math
 
     class CalcException;

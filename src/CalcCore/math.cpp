@@ -2,7 +2,7 @@
 
 namespace Calc::Math
 {
-    double factorial(double n)
+    double factorial(MainValType n)
     {
         if(n < 0)
         {
