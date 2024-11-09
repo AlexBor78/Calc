@@ -1,24 +1,23 @@
 #pragma once
 #include <calculator.h>
-#include <exception.h>
+#include <objectTable.h>
 #include <const.h>
-#include <var.h>
 
 namespace Calc
 {
-    class ConstTable
+    class ConstTable : ObjectTable
     {
     private:
         std::map<std::string, Constant> table;
     public:
         virtual bool contain(const char*);
-        virtual double getVal(const char*);
+        virtual MainValType getVal(const char*);
+        virtual Constant& at(const char*);
 
-        virtual int insert(const char*, double);
+        virtual void insert(const char*, MainValType);
     public:
         ConstTable();
         ~ConstTable();
     };
     
 } // namespace Calc
-

@@ -5,16 +5,17 @@
 
 namespace Calc
 {
-    class VarTable //: public ConstTable
+    class VarTable : public ConstTable
     {
     private:
         std::map<std::string, Varible> table;
     public:
         virtual bool contain(const char*);
-        virtual double getVal(const char*);
-        virtual int setVal(const char*, double);
+        virtual MainValType getVal(const char*);
+        virtual void setVal(const char*, MainValType);
+        virtual Varible& at(const char*);
 
-        virtual int insert(const char*, double);
+        virtual void insert(const char*, MainValType);
     };
     
 } // namespace Calc
