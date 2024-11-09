@@ -75,8 +75,12 @@ namespace Calc
         // std::cout << "getToken()" << std::endl;
         char ch{0};
         std::string buf;
-
+        
         ch = str.getCh();
+        // while(ch == ' ')
+        // {
+        //     ch = str.getCh();
+        // }
 
         do
         {
@@ -131,22 +135,33 @@ namespace Calc
         default:
             if(isalpha(ch))
             {
-                while (isalpha(ch))
+                while (isalpha(ch) && !isspace(ch))
                 {
                     buf += ch;
                     str.cursorpl();
                     ch = str.getCh();
+                    // std::cout << "buf: " << buf << std::endl;
+                    if(buf == "const")
+                    {
+                        break;
+                    }
+                }
+                if(buf == "const")
+                {
+                    buf.clear();
+                    return currTok = CONST;
+
                 }
                 if(var_name != nullptr)
                 {
                     delete[] var_name;
                 }
-
                 var_name = new char[buf.size()];
                 strcpy(var_name, buf.c_str());
+                // std::cout << "var name: " << var_name << std::endl;
                 return currTok = NAME;
             }
-            error("bad token");
+            error(std::string("bad token") + ch);
             str.cursorpl();
             return currTok = PRINT;
             break;
@@ -277,12 +292,37 @@ namespace Calc
             return fabs(e);
         } break;
 
+        case(CONST):
+            // std::cout << "case(const):" << std::endl;
+            getToken();
+            if(constTable.contain(var_name))
+            {
+                if(getToken() == ASSIGN)
+                {
+                    error("Constant is unchenged");
+                    getToken();
+                    return -1;
+                }
+                return constTable.getVal(var_name);
+            }
+            if(getToken() == ASSIGN)
+            {
+                // std::cout << "New const" << std::endl;
+                std::string buf(var_name);
+                getToken();
+                newName = 1;
+                constTable.insert(buf.c_str(), expr());
+                return 0;
+            }
+
         case (NAME):
             if(constTable.contain(var_name))
             {
                 if(getToken() == ASSIGN)
                 {
                     error("constants is unchenged");
+                    getToken();
+                    return -1;
                 }
                 return constTable.getVal(var_name);
             }
@@ -294,16 +334,18 @@ namespace Calc
                 if(varTable.contain(var_name))
                 {
                     varTable.setVal(buf.c_str(), expr());
-                    return varTable.getVal(buf.c_str());
+                    // return varTable.getVal(buf.c_str());
+                    return 0;
                 }
                 varTable.insert(buf.c_str(), expr());
-                return varTable.getVal(buf.c_str());
+                // return varTable.getVal(buf.c_str());
+                return 0;
             }
             if(varTable.contain(var_name))
             {
                 return varTable.getVal(var_name);
             }
-            error("unknow varible");
+            error(std::string("unknow varible ") + var_name);
             return -1;
             break;
         

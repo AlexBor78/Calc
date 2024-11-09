@@ -23,7 +23,7 @@ namespace Calc
     {
         if(!isInit)
         {
-            throw(CalcException("init str befor use"));
+            throw(CalcException("str is not inited"));
         }
     }
 

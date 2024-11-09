@@ -6,8 +6,9 @@ namespace Calc
         enum TokenValue : char
         {
             NOTINITED = -1,
-            NAME,
             NUMBER,
+            NAME,
+            CONST,
             FUNCTOIN,
             END,
             PLUS = '+',
